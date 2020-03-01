@@ -1,0 +1,21 @@
+@charset "utf-8";
+// import web fonts
+@import "https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap";
+
+$fa-font-path : "~@fortawesome/fontawesome-free/webfonts";
+@import "./node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "./node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
+
+$body-background-color: #fafafa;
+
+// Green Layout
+$primary: #009900;
+$secondary: #2f880f;
+$link: $secondary;
+$family-sans-serif: "Roboto", sans-serif;
+
+@import "../../../node_modules/bulma/bulma.sass";
+
+.button { 
+    border-radius: 0;
+}
