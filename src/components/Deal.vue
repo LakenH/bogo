@@ -1,5 +1,5 @@
 <template>
-    <div class="bogo-deal column is-one-third">
+    <div class="bogo-deal column is-one-third-desktop is-half-tablet">
         <div class="card">
             <div class="card-content bogo-deal-content has-text-centered">
                 <div class="bogo-deal-head">
@@ -40,6 +40,7 @@ export default {
 
   .bogo-deal {
     position: relative;
+    display: flex;
     .bogo-deal-btn {
       border-radius: 50%;
       position: absolute;
@@ -47,7 +48,8 @@ export default {
       bottom: 0;
     }
     .card {
-      height: 250px;
+      height: 100%;
+      min-height: 250px;
     }
     img {
       max-width: 100px;
@@ -68,6 +70,11 @@ export default {
       margin: auto;
       color: $primary;
       font-size: 24px;
+    }
+  }
+  @media (max-width: 1250px) {
+    .bogo-deal-head .name {
+      font-size: 18px;
     }
   }
 </style>

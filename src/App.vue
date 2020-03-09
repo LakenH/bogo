@@ -1,14 +1,11 @@
 <template>
   <div id="app">
-    <Header h1="Current Publix BOGO Offers"/>
+    <Header :email=email />
     <section class="main">
       <div class="container">
         <br>
         <br>
-        <div class="columns is-multiline" id="items">
-          <!-- eslint-disable-next-line max-len -->
-          <Deal product="Test" img="https://quetzalholdings.com/bogoalert.png" deal_type="BOGO" terms="BOGO TEST" date_start="01/01/2020" date_end="01/01/2020"/>
-        </div>
+        <router-view/>
       </div>
     </section>
     <footer class="footer">
@@ -23,8 +20,6 @@
 
 <script>
 import Header from './components/Header.vue';
-import Deal from './components/Deal.vue';
-
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
 const firebase = require('firebase/app');
@@ -44,41 +39,27 @@ firebase.initializeApp({
   measurementId: 'G-3L3YMVMQHG',
 });
 
-// const db = firebase.firestore();
-
+// import Deal from './components/Deal.vue';
+let userEmail = null;
+if (firebase.auth().currentUser) {
+  userEmail = firebase.user.email;
+  console.log(userEmail);
+} else {
+  console.log('not signed in');
+}
 
 export default {
+  data() {
+    return {
+      email: userEmail,
+    };
+  },
   name: 'App',
   components: {
     Header,
-    Deal,
+    // Deal,
   },
 };
-
-const xmlhttp = new XMLHttpRequest();
-let data = {};
-xmlhttp.onreadystatechange = function () {
-  if (this.readyState === 4 && this.status === 200) {
-    data = this.responseText;
-    console.log(data);
-    data = JSON.parse(data);
-    data = data.data.offer;
-    console.log(data);
-    // console.log(Object.keys(data));
-    data.forEach((obj) => {
-      Object.entries(obj).forEach(([key, value]) => {
-        console.log(`${key} ${value}`);
-      });
-      console.log('-------------------');
-    });
-  } else {
-    console.log('error');
-  }
-};
-xmlhttp.open('GET', 'https://api.bogoalert.com/publix_bogos.json');
-xmlhttp.send();
-
-// console.log(data);
 
 </script>
 

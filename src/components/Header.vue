@@ -14,15 +14,17 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <!-- <a class="navbar-item">
+        <router-link to="/" class="navbar-item">
           Home
-        </a>
+        </router-link>
 
-        <a class="navbar-item">
-          Documentation
-        </a>
-
-        <div class="navbar-item has-dropdown is-hoverable">
+        <router-link to="/About" class="navbar-item">
+          About
+        </router-link>
+        <router-link to="/admin" class="navbar-item">
+          Admin
+        </router-link>
+        <!-- <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
             More
           </a>
@@ -44,17 +46,30 @@
           </div>
         </div> -->
       </div>
-
+    </div>
+    <template v-if="email">
       <div class="navbar-end">
         <div class="navbar-item">
-          <div class="buttons">
-            <a class="button is-primary">
-              <strong>Sign up</strong>
-            </a>
-            <a class="button is-light">
-              Log in
-            </a>
+          <p>Aloha, {{email}}</p>
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-primary">
+                <strong>Sign Out</strong>
+              </a>
+            </div>
           </div>
+        </div>
+      </div>
+    </template>
+    <div class="navbar-end" v-else>
+      <div class="navbar-item">
+        <div class="buttons">
+          <router-link to="/login" class="button is-primary">
+            <strong>Sign up</strong>
+          </router-link>
+          <router-link to="/login" class="button is-light">
+            Log in
+          </router-link>
         </div>
       </div>
     </div>
@@ -62,10 +77,17 @@
 </template>
 
 <script>
+import firebase from 'firebase';
+
 export default {
   name: 'Header',
   props: {
-    h1: String,
+    email: String,
+  },
+  methods: {
+    signOut() {
+      firebase.auth().signOut();
+    },
   },
 };
 </script>

@@ -13,6 +13,9 @@ $primary: #009900;
 $secondary: #2f880f;
 $link: $secondary;
 $family-sans-serif: "Roboto", sans-serif;
+.container {
+    width: 90% !important;
+  }
 
 @import "../../../node_modules/bulma/bulma.sass";
 
