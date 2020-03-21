@@ -11,6 +11,8 @@
 import Deal from '@/components/Deal.vue';
 import firebase from 'firebase';
 
+const moment = require('moment');
+
 const db = firebase.firestore();
 
 export default {
@@ -35,8 +37,9 @@ export default {
       const bogoArray = [];
       let today = new Date();
       today = today.toLocaleDateString('zh-Hans-CN');
+      console.log(today);
       // eslint-disable-next-line prefer-arrow-callback
-      db.collection('bogos').where('date_end', '>=', today).get().then(function (bogoDat) {
+      db.collection('bogos').get().then(function (bogoDat) {
         console.log(bogoDat);
         let cnt = 0;
         // eslint-disable-next-line prefer-arrow-callback
@@ -44,22 +47,26 @@ export default {
           // eslint-disable-next-line prefer-template
           // console.log(doc.data());
           // cnt += 1;
-          const tempBogoArray = {};
-          tempBogoArray.id = cnt;
-          tempBogoArray.item = doc.data().item;
-          if (doc.data().img == null) {
-            tempBogoArray.img = 'https://quetzalholdings.com/bogoalert.png';
-          } else {
+          console.log(moment(doc.data().date_end));
+          console.log(moment());
+          if (moment().isSameOrBefore(doc.data().date_end, 'day')) {
+            const tempBogoArray = {};
+            tempBogoArray.id = cnt;
+            tempBogoArray.item = doc.data().item;
+            if (doc.data().img == null) {
+              tempBogoArray.img = 'https://quetzalholdings.com/bogoalert.png';
+            } else {
+              // eslint-disable-next-line prefer-template
+              tempBogoArray.img = 'https://' + doc.data().img;
+            }
             // eslint-disable-next-line prefer-template
-            tempBogoArray.img = 'https://' + doc.data().img;
+            tempBogoArray.date_end = doc.data().date_end.replace(new Date().getFullYear() + '/', '');
+            tempBogoArray.date_start = doc.data().date_start;
+            tempBogoArray.terms = doc.data().terms;
+            tempBogoArray.type = doc.data().type;
+            bogoArray.push(tempBogoArray);
+            cnt += 1;
           }
-          // eslint-disable-next-line prefer-template
-          tempBogoArray.date_end = doc.data().date_end.replace(new Date().getFullYear() + '/', '');
-          tempBogoArray.date_start = doc.data().date_start;
-          tempBogoArray.terms = doc.data().terms;
-          tempBogoArray.type = doc.data().type;
-          bogoArray.push(tempBogoArray);
-          cnt += 1;
         });
         console.log(bogoArray);
       });
